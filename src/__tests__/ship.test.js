@@ -1,4 +1,4 @@
-import { Ship } from '../Ship'
+import { Ship } from '../factories/Ship'
 
 describe('test Ship factory functions', () => {
   const ship = Ship(4);
@@ -25,14 +25,14 @@ describe('test Ship factory functions', () => {
 
 
   test('hits is less than length', () => {
-    expect(ship.isSunk).toBeTruthy();
+    expect(ship.isSunk()).toBeFalsy();
   })
 
   test('hits is equal ship length', () => {
     ship.hit(1);
     ship.hit(2);
     ship.hit(3)
-    expect(ship.isSunk).toBeTruthy();
+    expect(ship.isSunk()).toBeTruthy();
   })
 
 
