@@ -55,7 +55,7 @@ describe('placeShip function tests', () => {
   });
 });
 
-describe.only('receiveAttack', () => {
+describe('receiveAttack', () => {
   let g;
 
   beforeEach(() => {
@@ -76,5 +76,31 @@ describe.only('receiveAttack', () => {
     const y = 0;
     g.receiveAttack(0, 0);
     expect(g.board[x][y][1]).toBeTruthy();
+  })
+
+  test("should call hit function only once", () => {
+    const x = 1;
+    const y = 0;
+    const mockHitFunc = jest.fn((index) => index)
+
+    g.board[x][y][0] = {
+      hit: mockHitFunc,
+    }
+
+    g.receiveAttack(x, y);
+    expect(mockHitFunc).toHaveBeenCalledTimes(1);
+  })
+
+  test("should call hit with right index", () => {
+    const x = 1;
+    const y = 0;
+    const mockHitFunc = jest.fn((index) => index)
+
+    g.board[x][y][0] = {
+      hit: mockHitFunc,
+    }
+
+    g.receiveAttack(x, y);
+    expect(mockHitFunc).toHaveBeenCalledWith(1);
   })
 })

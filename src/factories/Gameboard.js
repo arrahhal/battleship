@@ -49,15 +49,21 @@ const Gameboard = () => {
   }
 
   const receiveAttack = (x, y) => {
-    const target = board[x][y];
+    const targetCell = board[x][y];
+    const isHit = targetCell[1];
+    const target = targetCell[0]
 
-    if (target[1] === true) return;
+    if (isHit === true) return;
 
-    if (target[0] === 'empty') {
-      target[1] = true;
+    if (target === 'empty') {
+      targetCell[1] = true;
+      return ;
     }
-    target[0].hit(target[2])
-    target[1] = true;
+
+    const shipIndex = targetCell[2];
+
+    target.hit(shipIndex)
+    targetCell[1] = true;
   }
 
   return {
