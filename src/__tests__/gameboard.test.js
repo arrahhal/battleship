@@ -104,3 +104,23 @@ describe('receiveAttack', () => {
     expect(mockHitFunc).toHaveBeenCalledWith(1);
   })
 })
+
+describe('placeShipsRandomly', () => {
+  let gameboard;
+
+  beforeEach(() => {
+    gameboard = Gameboard();
+    gameboard.placeShipsRandomly();
+  })
+
+  test("should find 17 tile not empty if sizes not specified", () => {
+    let filledTiles = 0;
+    gameboard.board.forEach((row, rowIndex) => {
+      row.forEach((_, colIndex) => {
+        if (gameboard.board[rowIndex][colIndex][0] !== 'empty') filledTiles++;
+      })
+    })
+
+    expect(filledTiles).toBe(17);
+  });
+})
