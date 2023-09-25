@@ -4,15 +4,16 @@ const Gameboard = () => {
 
   const boardSize = 10;
   const board = Array.from({ length: boardSize }, _ =>
-    // [['empty' or ship, isHit: true | false, null if empty or index of ship]]
-    Array.from({ length: boardSize }, _ => ['empty', false, null])
-  )
-
+    Array.from({ length: boardSize }, _ => ({
+      occupant: null,
+      isHit: false,
+      shipIndex: 0
+    })));
 
   const isReserved = (x, y, length, direction) => {
     for (let i = 0; i < length; i++) {
-      if (direction === 'v' && board[x + i][y][0] !== 'empty'
-        || direction === 'h' && board[x][y + i][0] !== 'empty') {
+      if (direction === 'v' && board[x + i][y].occupant
+        || direction === 'h' && board[x][y + i].occupant) {
         return true;
       }
     }
@@ -29,10 +30,11 @@ const Gameboard = () => {
         y < 0 ||
         y >= boardSize) return;
 
-    if (isReserved(x, y, length, direction)) return;
+      if (isReserved(x, y, length, direction)) return;
 
       for (let i = 0; i < length; i++) {
-        board[x + i][y] = [ship, false, i]
+        board[x + i][y].occupant = ship;
+        board[x + i][y].shipIndex = i;
       }
     }
     else if (direction === 'h') {
@@ -42,32 +44,24 @@ const Gameboard = () => {
         y < 0 ||
         y > boardSize - length) return;
 
-    if (isReserved(x, y, length, direction)) return;
+      if (isReserved(x, y, length, direction)) return;
 
       for (let i = 0; i < length; i++) {
-        board[x][y + i] = [ship, false, i]
+        board[x][y + i].occupant = ship;
+        board[x][y + i].shipIndex = i;
       }
     }
-    
+
     return true;
   }
 
   const receiveAttack = (x, y) => {
-    const targetCell = board[x][y];
-    const isHit = targetCell[1];
-    const target = targetCell[0]
-
-    if (isHit === true) return;
-
-    if (target === 'empty') {
-      targetCell[1] = true;
-      return;
+    const target = board[x][y];
+    if (target.isHit === true) return;
+    if (target.occupant) {
+      target.occupant.hit(target.shipIndex)
     }
-
-    const shipIndex = targetCell[2];
-
-    target.hit(shipIndex)
-    targetCell[1] = true;
+    target.isHit = true;
   }
 
   const placeShipsRandomly = (sizes = [5, 4, 3, 3, 2]) => {
