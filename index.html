@@ -1,11 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script type="module" src="./src/index.js"></script>
-    <title>Battleship</title>
-  </head>
-  <body></body>
-</html>
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script type="module" src="./src/index.js"></script>
+  <link rel="stylesheet" href="./src/style.css">
+  <title>Battleship</title>
+</head>
+
+<body>
+  <header class="header">
+    <h1 class="logo">Battleship</h1>
+  </header>
+  <main>
+    <div class="battlefields">
+      <div class="battlefield" id="battlefield-player">
+        <table class="battlefield-table" id="table-player"></table>
+        <div class="battlefield-label">Your grid</div>
+      </div>
+      <div class="battlefield battlefield-wait" id="battlefield-opponent">
+        <table class="battlefield-table" id="table-opponent"></table>
+        <div class="battlefield-label">Opponent(bot) grid</div>
+      </div>
+    </div>
+    <div class="log-wrapper">
+      <p class="log" id="log"></p>
+    </div>
+    <div class="options">
+      <button type="button" class="btn" id="btn-randomize">
+        <span class="icon-btn"></span>randomize
+      </button>
+      <button class="btn" type="button" id="btn-reset">
+        <span class="icon-btn"></span>reset
+      </button>
+      <button type="button" class="btn" id="btn-start">
+        <span class="icon-btn"></span>start
+      </button>
+    </div>
+  </main>
+  <footer class="footer">
+    <span><a class="link" target="_blank" href="https://github.com/arrahhal">author</a></span>
+    <span><a class="link" target="_blank" href="https://github.com/arrahhal/battleship">code</a></span>
+    <span><a class="link" target="_blank" href="https://en.wikipedia.org/wiki/Battleship_(game)">rules</a></span>
+  </footer>
+</body>
+
+</html>
