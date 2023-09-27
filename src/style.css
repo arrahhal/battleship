@@ -1,0 +1,147 @@
+:root {
+  --spacing-1: 8px;
+  --spacing-2: calc(var(--spacing-1) * 2);
+  --spacing-3: calc(var(--spacing-2) * 2);
+  --spacing-4: calc(var(--spacing-3) * 2);
+  --spacing-5: calc(var(--spacing-4) * 2);
+
+  --w-1: 34px;
+
+  --clr-accent: darksalmon;
+  --clr-hit: red;
+  --cursor-target: crosshair;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  font: inherit;
+}
+
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+  width: min(80rem, 100% - 2rem);
+  margin-inline: auto;
+  font-size: 18px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--spacing-4);
+}
+
+.header {
+  padding-top: var(--spacing-1);
+}
+
+.footer {
+  border-top: 1px dotted black;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.battlefields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-5);
+  margin-bottom: var(--spacing-2);
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+#table-opponent-placeholder {
+  --clr-hit: green;
+}
+#table-player-placeholder {
+  --cursor-target: auto;
+}
+
+td {
+  border: 1px solid black;
+  width: var(--w-1);
+  min-width: var(--w-1);
+  height: var(--w-1);
+  text-align: center;
+  cursor: var(--cursor-target);
+}
+
+td.mis {
+  cursor: auto;
+}
+
+td.mis::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: black;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+}
+
+td.hit {
+  border-color: var(--clr-hit);
+  cursor: var(--cursor);
+}
+
+td.hit::before {
+  content: "\2715"; /* xmark hex code */
+  color: var(--clr-hit);
+}
+
+td.sunk {
+  background-color: var(--clr-hit);
+  cursor: auto;
+}
+
+td.sunk::before {
+  content: "\2715"; /* xmark hex code */
+  color: white;
+}
+
+.options {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.btn {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.btn:hover {
+  fill: var(--clr-accent);
+  color: var(--clr-accent);
+}
+
+.btn:click {
+  font-weight: bold;
+}
+
+.icon-btn {
+  width: 25px;
+  height: 25px;
+}
+
+.link {
+  margin-inline-end: var(--spacing-1);
+  text-decoration: none;
+}
