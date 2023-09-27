@@ -113,6 +113,10 @@ td.sunk::before {
   color: white;
 }
 
+td.ship {
+  background-color: var(--clr-accent);
+}
+
 .options {
   display: flex;
   gap: var(--spacing-2);
