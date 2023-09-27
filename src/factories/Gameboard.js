@@ -56,7 +56,7 @@ const Gameboard = () => {
   }
 
   const receiveAttack = (x, y) => {
-    const target = board[x][y];
+    const target = board[y][x];
     if (target.isHit === true) return;
     if (target.occupant) {
       target.occupant.hit(target.shipIndex)

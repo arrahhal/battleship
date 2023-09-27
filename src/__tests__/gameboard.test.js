@@ -66,24 +66,24 @@ describe('receiveAttack', () => {
   test("should hit the correct tile and change its status", () => {
     const x = 0;
     const y = 0;
-    expect(g.board[x][y].isHit).toBeFalsy();
+    expect(g.board[y][x].isHit).toBeFalsy();
     g.receiveAttack(0, 0);
-    expect(g.board[x][y].isHit).toBeTruthy();
+    expect(g.board[y][x].isHit).toBeTruthy();
   })
 
   test("should not change tile if already hit", () => {
     const x = 0;
     const y = 0;
     g.receiveAttack(0, 0);
-    expect(g.board[x][y].isHit).toBeTruthy();
+    expect(g.board[y][x].isHit).toBeTruthy();
   })
 
   test("should call hit function only once", () => {
     const x = 1;
     const y = 0;
-    const mockHitFunc = jest.fn((index) => index)
+    const mockHitFunc = jest.fn()
 
-    g.board[x][y].occupant = {
+    g.board[y][x].occupant = {
       hit: mockHitFunc,
     }
 
@@ -92,11 +92,11 @@ describe('receiveAttack', () => {
   })
 
   test("should call hit with right index", () => {
-    const x = 1;
-    const y = 0;
-    const mockHitFunc = jest.fn((index) => index)
+    const x = 0;
+    const y = 1;
+    const mockHitFunc = jest.fn()
 
-    g.board[x][y].occupant = {
+    g.board[y][x].occupant = {
       hit: mockHitFunc,
     }
 
