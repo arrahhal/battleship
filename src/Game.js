@@ -18,7 +18,7 @@ export const Game = (() => {
 
   return {
     init,
-    playerBoard: () => playerGameboard.board,
-    opponentBoard: () => opponentGameboard.board
+    getPlayerBoard: () => playerGameboard.board,
+    getOpponentBoard: () => opponentGameboard.board
   }
 })();
