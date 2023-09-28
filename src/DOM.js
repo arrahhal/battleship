@@ -12,8 +12,29 @@ const DOM = (() => {
     })
     return table;
   }
+
+  const clearElement = (element) => {
+    element.textContent = "";
+  }
+
+  const appendTableToPlaceholder = (table, placeholder) => {
+    clearElement(placeholder);
+    placeholder.appendChild(table);
+  }
+
+  const updatePlayerTable = (matrix) => {
+    const playerTable = matrixToTable(matrix, true);
+    appendTableToPlaceholder(playerTable, selectors.tablePlayerPlaceholder);
+  }
+
+  const updateOpponentTable = (matrix) => {
+    const opponentTable = matrixToTable(matrix)
+    appendTableToPlaceholder(opponentTable, selectors.tableOpponentPlaceholder);
+  }
+
   return {
-    generateTableFromMatrix,
+    updateOpponentTable,
+    updatePlayerTable,
   }
 })();
 
