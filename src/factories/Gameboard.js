@@ -12,46 +12,63 @@ const Gameboard = () => {
 
   const isReserved = (x, y, length, direction) => {
     for (let i = 0; i < length; i++) {
-      if (direction === 'v' && board[x + i][y].occupant
-        || direction === 'h' && board[x][y + i].occupant) {
+      if (direction === 'v' && board[y + i][x].occupant
+        || direction === 'h' && board[y][x + i].occupant) {
         return true;
       }
     }
     return false;
   }
 
-  const placeShip = (x, y, length, direction) => {
-    const ship = Ship(length);
-
-    if (direction === 'v') {
+  const isValidPlace = (x, y, len, dir) => {
+    if (dir === 'v') {
       if (
         x < 0 ||
-        x > boardSize - length ||
+        x > boardSize ||
         y < 0 ||
-        y >= boardSize) return;
+        y + len >= boardSize) return false;
 
-      if (isReserved(x, y, length, direction)) return;
+      for (let i = -1; i < len + 1; i++) {
+        if ((y + i >= 0) && (y + i < boardSize)) {
+          if (isReserved(x, y + i, 1, 'v')) return false;
+          if ((x + 1 < boardSize) && isReserved(x + 1, y + i, 1, 'v')) return false;
+          if ((x - 1 >= 0) && isReserved(x - 1, y + i, 1, 'v')) return false;
+        }
+      }
+    }
+    else if (dir === 'h') {
+      if (
+        x < 0 ||
+        x + len >= boardSize ||
+        y < 0 ||
+        y > boardSize) return false;
 
+      for (let i = -1; i < len + 1; i++) {
+        if ((x + i >= 0) && (x + i < boardSize)) {
+          if (isReserved(x + i, y, 1, 'h')) return false;
+          if ((y + 1 < boardSize) && isReserved(x + i, y + 1, 1, 'h')) return false;
+          if ((y - 1 >= 0) && isReserved(x + i, y - 1, 1, 'h')) return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  const placeShip = (x, y, length, direction) => {
+    if (!isValidPlace(x, y, length, direction)) return;
+    const ship = Ship(length);
+    if (direction === 'v') {
       for (let i = 0; i < length; i++) {
-        board[x + i][y].occupant = ship;
-        board[x + i][y].shipIndex = i;
+        board[y + i][x].occupant = ship;
+        board[y + i][x].shipIndex = i;
       }
     }
     else if (direction === 'h') {
-      if (
-        x < 0 ||
-        x >= boardSize ||
-        y < 0 ||
-        y > boardSize - length) return;
-
-      if (isReserved(x, y, length, direction)) return;
-
       for (let i = 0; i < length; i++) {
-        board[x][y + i].occupant = ship;
-        board[x][y + i].shipIndex = i;
+        board[y][x + i].occupant = ship;
+        board[y][x + i].shipIndex = i;
       }
     }
-
     return true;
   }
 
