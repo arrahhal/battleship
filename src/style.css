@@ -104,7 +104,7 @@ td.hit::before {
 }
 
 td.sunk {
-  background-color: var(--clr-hit);
+  background-color: var(--clr-hit) !important;
   cursor: auto;
 }
 
