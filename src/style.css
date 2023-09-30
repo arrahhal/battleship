@@ -48,6 +48,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: var(--spacing-2);
 }
 
 .battlefields {
@@ -148,4 +149,9 @@ td.ship {
 .link {
   margin-inline-end: var(--spacing-1);
   text-decoration: none;
+}
+
+.log-wrapper {
+  padding: calc(var(--spacing-1) / 2) var(--spacing-1);
+  border: 1px solid black;
 }

@@ -32,9 +32,45 @@ const DOM = (() => {
     appendTableToPlaceholder(opponentTable, selectors.tableOpponentPlaceholder);
   }
 
+  let typingTimeout;
+  function log(something, index = 0) {
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+    clearLog();
+    function typeNextChar() {
+      if (index < something.length) {
+        selectors.log.textContent += something.charAt(index);
+        index++;
+        typingTimeout = setTimeout(typeNextChar, 50);
+      }
+    }
+    typeNextChar();
+  }
+
+  const clearLog = () => {
+    clearElement(selectors.log);
+  }
+
+  function logStart() {
+    clearLog();
+    log(`Battleship game started...`);
+  }
+
+  function logPlayerWin() {
+    log('You wins! All opponent ships are sunk');
+  }
+
+  function logOpponentWin() {
+    log('Opponent wins! All your ships are sunk');
+  }
+
   return {
     updateOpponentTable,
     updatePlayerTable,
+    logStart,
+    logPlayerWin,
+    logOpponentWin,
   }
 })();
 
