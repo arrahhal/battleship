@@ -33,6 +33,38 @@ function initListeners() {
     refreshPlayerBoard();
   }
 
+  function handleOpponentBoardClick(e) {
+    if (Game.isGameOver()) return;
+
+    const clickedCell = e.target;
+    if (clickedCell.localName !== 'td') return;
+
+    const x = Number(clickedCell.dataset.x);
+    const y = Number(clickedCell.dataset.y);
+
+    if (player.attack(opponentGameboard, x, y)) {
+      handlePlayerTurn();
+      handleOpponentTurn();
+      refreshBoards();
+    }
+  }
+
+  function handlePlayerTurn() {
+    if (Game.isGameOver()) {
+      refreshOpponentBoard();
+      DOM.logGameOver(Game.winner());
+      return;
+    }
+  }
+
+  function handleOpponentTurn() {
+    opponent.randomAttack(playerGameboard);
+    if (Game.isGameOver()) {
+      refreshPlayerBoard();
+      DOM.logGameOver(Game.winner());
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     Game.init();
     initVariables();
@@ -42,24 +74,7 @@ function initListeners() {
     DOM.logStart();
   })
 
-  selectors.tableOpponentPlaceholder.addEventListener('click', (e) => {
-    if (Game.isGameOver()) return;
-    if (e.target.localName != 'td') return;
-    if (player.attack(opponentGameboard, Number(e.target.dataset.x), Number(e.target.dataset.y))) {
-      if (Game.isGameOver()) {
-        refreshOpponentBoard();
-        DOM.logGameOver(Game.winner());
-        return;
-      }
-      opponent.randomAttack(playerGameboard);
-      if (Game.isGameOver()) {
-        refreshPlayerBoard();
-        DOM.logGameOver(Game.winner());
-        return;
-      }
-      refreshBoards();
-    }
-  })
+  selectors.tableOpponentPlaceholder.addEventListener('click', handleOpponentBoardClick)
 }
 
 export default initListeners;
