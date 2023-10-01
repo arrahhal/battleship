@@ -74,11 +74,12 @@ const Gameboard = () => {
 
   const receiveAttack = (x, y) => {
     const target = board[y][x];
-    if (target.isHit === true) return;
+    if (target.isHit === true) return false;
     if (target.occupant) {
       target.occupant.hit(target.shipIndex)
     }
     target.isHit = true;
+    return true;
   }
 
   const placeShipsRandomly = (sizes = [5, 4, 3, 3, 2]) => {

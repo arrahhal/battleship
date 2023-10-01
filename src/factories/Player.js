@@ -18,7 +18,7 @@ const Player = (name) => {
   }
 
   function attack(gameboard, x, y) {
-    gameboard.receiveAttack(x, y);
+    return gameboard.receiveAttack(x, y);
   }
 
   function randomAttack(gameboard) {
