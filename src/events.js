@@ -11,7 +11,7 @@ function initListeners() {
   let opponent;
   let player;
 
-  function initVariables() {
+  function intilizeVars() {
     opponentGameboard = Game.getOpponentGameboard();
     playerGameboard = Game.getPlayerGameboard();
     playerBoard = Game.getPlayerBoard();
@@ -34,7 +34,7 @@ function initListeners() {
   }
 
   function handleOpponentBoardClick(e) {
-    if (Game.isGameOver()) return;
+    if (Game.isOver()) return;
 
     const clickedCell = e.target;
     if (clickedCell.localName !== 'td') return;
@@ -50,7 +50,7 @@ function initListeners() {
   }
 
   function handlePlayerTurn() {
-    if (Game.isGameOver()) {
+    if (Game.isOver()) {
       refreshOpponentBoard();
       DOM.logGameOver(Game.winner());
       return;
@@ -59,22 +59,35 @@ function initListeners() {
 
   function handleOpponentTurn() {
     opponent.randomAttack(playerGameboard);
-    if (Game.isGameOver()) {
+    if (Game.isOver()) {
       refreshPlayerBoard();
       DOM.logGameOver(Game.winner());
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function intilizeGame() {
     Game.init();
-    initVariables();
+    intilizeVars();
     opponentGameboard.placeShipsRandomly();
     playerGameboard.placeShipsRandomly();
     refreshBoards();
     DOM.logStart();
-  })
+  }
+
+  function handleRandomizeClick() {
+    if (Game.isStarted()) return;
+    playerGameboard.resetBoard();
+    playerGameboard.placeShipsRandomly();
+    refreshPlayerBoard();
+  }
+
+  document.addEventListener('DOMContentLoaded', intilizeGame);
 
   selectors.tableOpponentPlaceholder.addEventListener('click', handleOpponentBoardClick)
+
+  selectors.btnReset.addEventListener('click', intilizeGame);
+
+  selectors.btnRandomize.addEventListener('click', handleRandomizeClick);
 }
 
 export default initListeners;

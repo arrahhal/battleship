@@ -16,7 +16,7 @@ export const Game = (() => {
     TurnManager.init(player, opponent, playerGameboard, opponentGameboard);
   }
 
-  const isGameOver = () => {
+  const isOver = () => {
     return playerGameboard.areAllShipsSunk() || opponentGameboard.areAllShipsSunk();
   }
 
@@ -26,10 +26,15 @@ export const Game = (() => {
     return null;
   }
 
+  const isStarted = () => {
+    return playerGameboard.hasReceivedAttack() || opponentGameboard.hasReceivedAttack();
+  }
+
   return {
     init,
-    isGameOver,
+    isOver,
     winner,
+    isStarted,
     getPlayerBoard: () => playerGameboard.board,
     getOpponentBoard: () => opponentGameboard.board,
     getPlayerGameboard: () => playerGameboard,

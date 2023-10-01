@@ -3,7 +3,7 @@ import { Ship } from './Ship'
 const Gameboard = () => {
 
   const boardSize = 10;
-  const board = Array.from({ length: boardSize }, _ =>
+  let board = Array.from({ length: boardSize }, _ =>
     Array.from({ length: boardSize }, _ => ({
       occupant: null,
       isHit: false,
@@ -107,12 +107,33 @@ const Gameboard = () => {
     return true;
   }
 
+  const resetBoard = () => {
+    board.forEach((row, r) => {
+      row.forEach((_, c) => {
+        board[r][c].occupant = null;
+        board[r][c].isHit = false;
+        board[r][c].shipIndex = 0;
+      })
+    })
+  }
+
+  const hasReceivedAttack = () => {
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[0].length; j++) {
+        if (board[i][j]['isHit']) return true;
+      }
+    }
+    return false;
+  }
+
   return {
     placeShip,
     board,
     receiveAttack,
     placeShipsRandomly,
     areAllShipsSunk,
+    hasReceivedAttack,
+    resetBoard,
   }
 }
 
