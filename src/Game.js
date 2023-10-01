@@ -16,11 +16,18 @@ export const Game = (() => {
     TurnManager.init(player, opponent, playerGameboard, opponentGameboard);
   }
 
+  const isGameOver = () => {
+    return playerGameboard.areAllShipsSunk() || opponentGameboard.areAllShipsSunk();
+  }
+
   return {
     init,
+    isGameOver,
     getPlayerBoard: () => playerGameboard.board,
     getOpponentBoard: () => opponentGameboard.board,
     getPlayerGameboard: () => playerGameboard,
     getOpponentGameboard: () => opponentGameboard,
+    player: () => player,
+    opponent: () => opponent,
   }
 })();

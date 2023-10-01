@@ -18,7 +18,7 @@ export const TurnManager = (() => {
   const isGameover = () => isGameOver;
 
   const endTurn = () => {
-    if (currentGameboard.isAllShipsSunk()) {
+    if (currentGameboard.isGameOver()) {
       isGameOver = true;
     }
     const temp = currentPlayer;

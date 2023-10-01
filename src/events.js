@@ -8,6 +8,17 @@ function initListeners() {
   let playerGameboard;
   let playerBoard;
   let opponentBoard;
+  let opponent;
+  let player;
+
+  function initVariables() {
+    opponentGameboard = Game.getOpponentGameboard();
+    playerGameboard = Game.getPlayerGameboard();
+    playerBoard = Game.getPlayerBoard();
+    opponentBoard = Game.getOpponentBoard();
+    player = Game.player();
+    opponent = Game.opponent();
+  }
 
   function refreshPlayerBoard() {
     DOM.updatePlayerTable(playerBoard);
@@ -17,16 +28,30 @@ function initListeners() {
     DOM.updateOpponentTable(opponentBoard);
   }
 
+  function refreshBoards() {
+    refreshOpponentBoard();
+    refreshPlayerBoard();
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     Game.init();
-    opponentGameboard = Game.getOpponentGameboard();
-    playerGameboard = Game.getPlayerGameboard();
-    playerBoard = Game.getPlayerBoard();
-    opponentBoard = Game.getOpponentBoard();
+    initVariables();
     opponentGameboard.placeShipsRandomly();
     playerGameboard.placeShipsRandomly();
-    refreshPlayerBoard();
-    refreshOpponentBoard();
+    refreshBoards();
+    DOM.logStart();
+  })
+
+  selectors.tableOpponentPlaceholder.addEventListener('click', (e) => {
+    if (Game.isGameOver()) {
+      DOM.logPlayerWin('Game over... click restart to play again');
+      return;
+    }
+    if (e.target.localName != 'td') return;
+    if (player.attack(opponentGameboard, Number(e.target.dataset.x), Number(e.target.dataset.y))) {
+      opponent.randomAttack(playerGameboard);
+      refreshBoards();
+    }
   })
 }
 

@@ -92,11 +92,26 @@ const Gameboard = () => {
       }
     })
   }
+
+  const areAllShipsSunk = () => {
+    for (let r = 0; r < board.length; r++) {
+      for (let c = 0; c < board[r].length; c++) {
+        if (board[r][c].occupant) {
+          if (!board[r][c].occupant.isSunk()) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
   return {
     placeShip,
     board,
     receiveAttack,
-    placeShipsRandomly
+    placeShipsRandomly,
+    areAllShipsSunk,
   }
 }
 
