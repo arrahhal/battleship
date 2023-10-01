@@ -20,9 +20,16 @@ export const Game = (() => {
     return playerGameboard.areAllShipsSunk() || opponentGameboard.areAllShipsSunk();
   }
 
+  const winner = () => {
+    if (playerGameboard.areAllShipsSunk()) return opponent;
+    if (opponentGameboard.areAllShipsSunk()) return player;
+    return null;
+  }
+
   return {
     init,
     isGameOver,
+    winner,
     getPlayerBoard: () => playerGameboard.board,
     getOpponentBoard: () => opponentGameboard.board,
     getPlayerGameboard: () => playerGameboard,

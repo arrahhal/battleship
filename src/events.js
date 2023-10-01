@@ -43,13 +43,20 @@ function initListeners() {
   })
 
   selectors.tableOpponentPlaceholder.addEventListener('click', (e) => {
-    if (Game.isGameOver()) {
-      DOM.logPlayerWin('Game over... click restart to play again');
-      return;
-    }
+    if (Game.isGameOver()) return;
     if (e.target.localName != 'td') return;
     if (player.attack(opponentGameboard, Number(e.target.dataset.x), Number(e.target.dataset.y))) {
+      if (Game.isGameOver()) {
+        refreshOpponentBoard();
+        DOM.logGameOver(Game.winner());
+        return;
+      }
       opponent.randomAttack(playerGameboard);
+      if (Game.isGameOver()) {
+        refreshPlayerBoard();
+        DOM.logGameOver(Game.winner());
+        return;
+      }
       refreshBoards();
     }
   })

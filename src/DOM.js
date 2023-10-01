@@ -57,20 +57,15 @@ const DOM = (() => {
     log(`Battleship game started...`);
   }
 
-  function logPlayerWin() {
-    log('You wins! All opponent ships are sunk');
-  }
-
-  function logOpponentWin() {
-    log('Opponent wins! All your ships are sunk');
+  const logGameOver = (winner = '')  => {
+    log(`Game is over. ${winner ? winner.name + " is the winner. " : ''}click restart button to play again...`);
   }
 
   return {
     updateOpponentTable,
     updatePlayerTable,
     logStart,
-    logPlayerWin,
-    logOpponentWin,
+    logGameOver,
   }
 })();
 
