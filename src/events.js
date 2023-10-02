@@ -86,7 +86,7 @@ function initListeners() {
     const hoveredCell = e.target;
     const x = Number(hoveredCell.dataset.x);
     const y = Number(hoveredCell.dataset.y);
-    DOM.highlightPlace(x, y, playerGameboard.nextShipLength(), playerGameboard.nextShipDirection());
+    DOM.highlightPlaces(x, y, playerGameboard.nextShipLength(), playerGameboard.nextShipDirection());
   }
 
   function handlePlaceShip(e) {
@@ -108,7 +108,7 @@ function initListeners() {
 
   selectors.tablePlayerPlaceholder.addEventListener('mouseover', handleHighlightShip);
 
-  selectors.tablePlayerPlaceholder.addEventListener('mouseleave', DOM.clearHighlights);
+  selectors.tablePlayerPlaceholder.addEventListener('mouseleave', DOM.removeHighlights);
 
   selectors.tablePlayerPlaceholder.addEventListener('click', handlePlaceShip)
 }

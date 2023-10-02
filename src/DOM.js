@@ -32,7 +32,30 @@ const DOM = (() => {
     appendTableToPlaceholder(opponentTable, selectors.tableOpponentPlaceholder);
   }
 
-  const clearHighlights = () => {
+  const highlightReserved = () => {
+    const shipTiles = document.querySelectorAll('td.ship');
+    shipTiles.forEach(tile => {
+      const x = Number(tile.dataset.x);
+      const y = Number(tile.dataset.y);
+      tile.classList.add('reserved');
+      for (let i = -1, j = 1; i <= 1; i++, j--) {
+        const nearbyX = selectors.tablePlayerPlaceholder.querySelector(`[data-y="${y}"][data-x="${x + i}"]`);
+        const nearbyY = selectors.tablePlayerPlaceholder.querySelector(`[data-y="${y + i}"][data-x="${x}"]`);
+        const nearbyXY = selectors.tablePlayerPlaceholder.querySelector(`[data-y="${y + i}"][data-x="${x + i}"]`)
+        const nearbyYX = selectors.tablePlayerPlaceholder.querySelector(`[data-y="${y + j}"][data-x="${x + i}"]`)
+        if (nearbyX) nearbyX.classList.add('reserved');
+        if (nearbyY) nearbyY.classList.add('reserved');
+        if (nearbyXY) nearbyXY.classList.add('reserved');
+        if (nearbyYX) nearbyYX.classList.add('reserved');
+      }
+    })
+  }
+
+  const removeReservedHighlights = () => {
+    document.querySelectorAll('td.reserved').forEach(el => el.classList.remove('reserved')); 
+  }
+
+  const removeShipHighlights = () => {
     document.querySelectorAll('td.highlight').forEach(td => td.classList.remove('highlight'));
   }
 
@@ -44,8 +67,8 @@ const DOM = (() => {
     document.querySelector(':root').style.removeProperty('--clr-highlight');
   }
 
-  const highlightPlace = (x, y, len, dir) => {
-    clearHighlights();
+  const highlightShip = (x, y, len, dir) => {
+    removeShipHighlights();
     let target;
     if (dir === 'h') {
       for (let i = 0; i < len; i++) {
@@ -64,6 +87,16 @@ const DOM = (() => {
         document.querySelector(`[data-x="${x}"][data-y="${y + i}"]`).classList.add('highlight');
       }
     }
+  }
+
+  const highlightPlaces = (x, y, len, dir) => {
+    highlightShip(x, y, len, dir);
+    highlightReserved();
+  }
+
+  const removeHighlights = () => {
+    removeShipHighlights();
+    removeReservedHighlights();
   }
 
   let typingTimeout;
@@ -100,8 +133,8 @@ const DOM = (() => {
     updatePlayerTable,
     logStart,
     logGameOver,
-    highlightPlace,
-    clearHighlights,
+    highlightPlaces,
+    removeHighlights,
   }
 })();
 

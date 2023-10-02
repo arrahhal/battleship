@@ -9,7 +9,8 @@
 
   --clr-accent: skyblue;
   --clr-hit: red;
-  --clr-highlight: hsla(185, 10%, 75%, 0.4);
+  --clr-highlight: var(--clr-accent);
+  --clr-reserved: 0 100% 64%;
   --cursor-target: crosshair;
 }
 
@@ -121,6 +122,22 @@ td.ship {
 
 td.highlight {
   background-color: var(--clr-highlight);
+}
+
+td.reserved.highlight {
+  background-color: red;
+}
+
+td.ship.highlight {
+  background-color: red;
+}
+
+td.reserved {
+  background-color: hsla(var(--clr-reserved) / 0.5);
+}
+
+td.ship.reserved {
+  background-color: hsla(var(--clr-reserved) / 1);
 }
 
 .options {
