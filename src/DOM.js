@@ -52,7 +52,7 @@ const DOM = (() => {
   }
 
   const removeReservedHighlights = () => {
-    document.querySelectorAll('td.reserved').forEach(el => el.classList.remove('reserved')); 
+    document.querySelectorAll('td.reserved').forEach(el => el.classList.remove('reserved'));
   }
 
   const removeShipHighlights = () => {
@@ -69,22 +69,25 @@ const DOM = (() => {
 
   const highlightShip = (x, y, len, dir) => {
     removeShipHighlights();
-    let target;
+
+    const highlightCell = (x, y) => {
+      const target = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+      if (target) {
+        target.classList.add('highlight');
+        highlightDefault();
+      }
+      else {
+        highlightOverflow();
+      }
+    }
     if (dir === 'h') {
       for (let i = 0; i < len; i++) {
-        target = document.querySelector(`[data-x="${x + i}"][data-y="${y}"]`);
-        if (target) {
-          target.classList.add('highlight');
-          highlightDefault();
-        }
-        else {
-          highlightOverflow();
-        }
+        highlightCell(x + i, y);
       }
     }
     if (dir === 'v') {
       for (let i = 0; i < len; i++) {
-        document.querySelector(`[data-x="${x}"][data-y="${y + i}"]`).classList.add('highlight');
+        highlightCell(x, y + i);
       }
     }
   }
