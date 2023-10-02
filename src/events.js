@@ -81,6 +81,23 @@ function initListeners() {
     refreshPlayerBoard();
   }
 
+  function handleHighlightShip(e) {
+    if (playerGameboard.isFull()) return;
+    const hoveredCell = e.target;
+    const x = Number(hoveredCell.dataset.x);
+    const y = Number(hoveredCell.dataset.y);
+    DOM.highlightPlace(x, y, playerGameboard.nextShipLength(), playerGameboard.nextShipDirection());
+  }
+
+  function handlePlaceShip(e) {
+    if (playerGameboard.isFull()) return;
+    const clickedCell = e.target;
+    const x = Number(clickedCell.dataset.x);
+    const y = Number(clickedCell.dataset.y);
+    playerGameboard.placeNextShip(x, y);
+    refreshPlayerBoard();
+  }
+
   document.addEventListener('DOMContentLoaded', intilizeGame);
 
   selectors.tableOpponentPlaceholder.addEventListener('click', handleOpponentBoardClick)
@@ -88,6 +105,12 @@ function initListeners() {
   selectors.btnReset.addEventListener('click', intilizeGame);
 
   selectors.btnRandomize.addEventListener('click', handleRandomizeClick);
+
+  selectors.tablePlayerPlaceholder.addEventListener('mouseover', handleHighlightShip);
+
+  selectors.tablePlayerPlaceholder.addEventListener('mouseleave', DOM.clearHighlights);
+
+  selectors.tablePlayerPlaceholder.addEventListener('click', handlePlaceShip)
 }
 
 export default initListeners;

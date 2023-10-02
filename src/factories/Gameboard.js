@@ -3,6 +3,9 @@ import { Ship } from './Ship'
 const Gameboard = () => {
 
   const boardSize = 10;
+  const shipSizes = [5, 4, 3, 3, 2];
+  let nextSizeIndex = 0;
+  let shipDirection = 'h';
   let board = Array.from({ length: boardSize }, _ =>
     Array.from({ length: boardSize }, _ => ({
       occupant: null,
@@ -55,7 +58,7 @@ const Gameboard = () => {
   }
 
   const placeShip = (x, y, length, direction) => {
-    if (!isValidPlace(x, y, length, direction)) return;
+    if (!isValidPlace(x, y, length, direction)) return false;
     const ship = Ship(length);
     if (direction === 'v') {
       for (let i = 0; i < length; i++) {
@@ -82,8 +85,15 @@ const Gameboard = () => {
     return true;
   }
 
-  const placeShipsRandomly = (sizes = [5, 4, 3, 3, 2]) => {
-    sizes.forEach((size, i) => {
+  const toggleDirection = () => {
+    if (shipDirection === 'h')
+      shipDirection = 'v';
+    else
+      shipDirection = 'h';
+  }
+
+  const placeShipsRandomly = () => {
+    shipSizes.forEach((size, i) => {
       while (true) {
         const dirs = ['h', 'v'];
         const x = Math.floor(Math.random() * 10);
@@ -126,6 +136,28 @@ const Gameboard = () => {
     return false;
   }
 
+  const placeNextShip = (x, y) => {
+    if (nextSizeIndex >= maxShipsCount) nextSizeIndex = 0;
+    if (placeShip(x, y, shipSizes[nextSizeIndex], shipDirection)) {
+      nextSizeIndex++;
+    }
+  }
+
+  const shipsCount = () => {
+    let count = 0;
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[0].length; j++) {
+        if (board[i][j].occupant && board[i][j].shipIndex === 0)
+          count++;
+      }
+    }
+    return count;
+  }
+
+  const maxShipsCount = () => shipSizes.length;
+
+  const isFull = () => shipsCount() === maxShipsCount();
+
   return {
     placeShip,
     board,
@@ -134,6 +166,11 @@ const Gameboard = () => {
     areAllShipsSunk,
     hasReceivedAttack,
     resetBoard,
+    toggleDirection,
+    placeNextShip,
+    isFull,
+    nextShipLength: () => shipSizes[nextSizeIndex],
+    nextShipDirection: () => shipDirection,
   }
 }
 

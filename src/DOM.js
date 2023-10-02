@@ -32,6 +32,40 @@ const DOM = (() => {
     appendTableToPlaceholder(opponentTable, selectors.tableOpponentPlaceholder);
   }
 
+  const clearHighlights = () => {
+    document.querySelectorAll('td.highlight').forEach(td => td.classList.remove('highlight'));
+  }
+
+  const highlightOverflow = () => {
+    document.querySelector(':root').style.setProperty('--clr-highlight', 'red');
+  }
+
+  const highlightDefault = () => {
+    document.querySelector(':root').style.removeProperty('--clr-highlight');
+  }
+
+  const highlightPlace = (x, y, len, dir) => {
+    clearHighlights();
+    let target;
+    if (dir === 'h') {
+      for (let i = 0; i < len; i++) {
+        target = document.querySelector(`[data-x="${x + i}"][data-y="${y}"]`);
+        if (target) {
+          target.classList.add('highlight');
+          highlightDefault();
+        }
+        else {
+          highlightOverflow();
+        }
+      }
+    }
+    if (dir === 'v') {
+      for (let i = 0; i < len; i++) {
+        document.querySelector(`[data-x="${x}"][data-y="${y + i}"]`).classList.add('highlight');
+      }
+    }
+  }
+
   let typingTimeout;
   function log(something, index = 0) {
     if (typingTimeout) {
@@ -57,7 +91,7 @@ const DOM = (() => {
     log(`Battleship game started...`);
   }
 
-  const logGameOver = (winner = '')  => {
+  const logGameOver = (winner = '') => {
     log(`Game is over. ${winner ? winner.name + " is the winner. " : ''}click restart button to play again...`);
   }
 
@@ -66,6 +100,8 @@ const DOM = (() => {
     updatePlayerTable,
     logStart,
     logGameOver,
+    highlightPlace,
+    clearHighlights,
   }
 })();
 
