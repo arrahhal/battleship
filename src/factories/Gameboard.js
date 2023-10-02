@@ -27,9 +27,9 @@ const Gameboard = () => {
     if (dir === 'v') {
       if (
         x < 0 ||
-        x > boardSize ||
+        x >= boardSize ||
         y < 0 ||
-        y + len >= boardSize) return false;
+        y + len > boardSize) return false;
 
       for (let i = -1; i < len + 1; i++) {
         if ((y + i >= 0) && (y + i < boardSize)) {
@@ -42,9 +42,9 @@ const Gameboard = () => {
     else if (dir === 'h') {
       if (
         x < 0 ||
-        x + len >= boardSize ||
+        x + len > boardSize ||
         y < 0 ||
-        y > boardSize) return false;
+        y >= boardSize) return false;
 
       for (let i = -1; i < len + 1; i++) {
         if ((x + i >= 0) && (x + i < boardSize)) {
