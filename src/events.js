@@ -98,6 +98,10 @@ function initListeners() {
     refreshPlayerBoard();
   }
 
+  function handleRotateClick() {
+    playerGameboard.toggleDirection();
+  }
+
   document.addEventListener('DOMContentLoaded', intilizeGame);
 
   selectors.tableOpponentPlaceholder.addEventListener('click', handleOpponentBoardClick)
@@ -111,6 +115,8 @@ function initListeners() {
   selectors.tablePlayerPlaceholder.addEventListener('mouseleave', DOM.removeHighlights);
 
   selectors.tablePlayerPlaceholder.addEventListener('click', handlePlaceShip)
+
+  selectors.btnRotate.addEventListener('click', handleRotateClick);
 }
 
 export default initListeners;

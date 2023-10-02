@@ -3,7 +3,7 @@ export const selectors = {
   tableOpponentPlaceholder: document.getElementById('table-opponent-placeholder'),
   btnRandomize: document.getElementById('btn-randomize'),
   btnReset: document.getElementById('btn-reset'),
-  btnStart: document.getElementById('btn-start'),
+  btnRotate: document.getElementById('btn-start'),
   log: document.getElementById('log')
 }
 
