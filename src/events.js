@@ -35,6 +35,7 @@ function initListeners() {
 
   function handleOpponentBoardClick(e) {
     if (Game.isOver()) return;
+    if (!Game.isReadyToStart()) return;
 
     const clickedCell = e.target;
     if (clickedCell.localName !== 'td') return;
@@ -69,7 +70,6 @@ function initListeners() {
     Game.init();
     intilizeVars();
     opponentGameboard.placeShipsRandomly();
-    playerGameboard.placeShipsRandomly();
     refreshBoards();
     DOM.logStart();
   }

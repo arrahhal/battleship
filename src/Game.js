@@ -30,11 +30,16 @@ export const Game = (() => {
     return playerGameboard.hasReceivedAttack() || opponentGameboard.hasReceivedAttack();
   }
 
+  const isReadyToStart = () => {
+    return playerGameboard.isFull() && opponentGameboard.isFull();
+  }
+
   return {
     init,
     isOver,
     winner,
     isStarted,
+    isReadyToStart,
     getPlayerBoard: () => playerGameboard.board,
     getOpponentBoard: () => opponentGameboard.board,
     getPlayerGameboard: () => playerGameboard,
