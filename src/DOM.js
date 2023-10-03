@@ -124,11 +124,27 @@ const DOM = (() => {
 
   function logStart() {
     clearLog();
-    log(`Battleship game started...`);
+    log(`Start attacking your opponent 🎯`);
   }
 
   const logGameOver = (winner = '') => {
-    log(`Game is over. ${winner ? winner.name + " is the winner. " : ''}click restart button to play again...`);
+    log(`Congrats 🎉. ${winner ? winner.name + " is the winner." : ''} click restart button to play again...`);
+  }
+
+  const logPlace = (reminder) => {
+    log(`There are ${reminder} ships 🚢 remind. hover on your board to place them.`);
+  }
+
+  const logAttackResult = (cell) => {
+    if (cell.occupant) {
+      if (cell.occupant.isSunk()) {
+        log('Great job. an enemy ship has been sunk ☠️');
+        return;
+      }
+      log('You hit a ship tile, keep attacking it 🌊')
+      return;
+    }
+    log('missed shot')
   }
 
   return {
@@ -138,6 +154,8 @@ const DOM = (() => {
     logGameOver,
     highlightPlaces,
     removeHighlights,
+    logPlace,
+    logAttackResult,
   }
 })();
 

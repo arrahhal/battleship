@@ -35,7 +35,7 @@ function initListeners() {
 
   function handleOpponentBoardClick(e) {
     if (Game.isOver()) return;
-    if (!Game.isReadyToStart()) return;
+    if (!Game.isReadyToStart() && !Game.isStarted()) return;
 
     const clickedCell = e.target;
     if (clickedCell.localName !== 'td') return;
@@ -47,13 +47,14 @@ function initListeners() {
       handlePlayerTurn();
       handleOpponentTurn();
       refreshBoards();
+      handleLog(opponentBoard[y][x]);
     }
   }
 
   function handlePlayerTurn() {
     if (Game.isOver()) {
       refreshOpponentBoard();
-      DOM.logGameOver(Game.winner());
+      handleLog();
       return;
     }
   }
@@ -71,7 +72,7 @@ function initListeners() {
     intilizeVars();
     opponentGameboard.placeShipsRandomly();
     refreshBoards();
-    DOM.logStart();
+    handleLog();
   }
 
   function handleRandomizeClick() {
@@ -96,6 +97,25 @@ function initListeners() {
     const y = Number(clickedCell.dataset.y);
     playerGameboard.placeNextShip(x, y);
     refreshPlayerBoard();
+    handleLog();
+  }
+
+  function handleLog(target = null) {
+    if (!Game.isReadyToStart()) {
+      DOM.logPlace(playerGameboard.remindShipsCount());
+    }
+
+    if (Game.isReadyToStart()) {
+      DOM.logStart();
+    }
+
+    if (Game.isStarted() && target) {
+      DOM.logAttackResult(target);
+    }
+
+    if (Game.isOver()) {
+      DOM.logGameOver(Game.winner());
+    }
   }
 
   function handleRotateClick() {

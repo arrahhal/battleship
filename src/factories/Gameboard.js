@@ -158,6 +158,8 @@ const Gameboard = () => {
 
   const isFull = () => shipsCount() === maxShipsCount();
 
+  const remindShipsCount = () => shipSizes.length - shipsCount();
+
   return {
     placeShip,
     board,
@@ -169,6 +171,7 @@ const Gameboard = () => {
     toggleDirection,
     placeNextShip,
     isFull,
+    remindShipsCount,
     nextShipLength: () => shipSizes[nextSizeIndex],
     nextShipDirection: () => shipDirection,
   }
