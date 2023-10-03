@@ -17,7 +17,7 @@ export const Game = (() => {
   }
 
   const isOver = () => {
-    return playerGameboard.areAllShipsSunk() || opponentGameboard.areAllShipsSunk();
+    return isStarted() && (playerGameboard.areAllShipsSunk() || opponentGameboard.areAllShipsSunk());
   }
 
   const winner = () => {
@@ -31,7 +31,7 @@ export const Game = (() => {
   }
 
   const isReadyToStart = () => {
-    return playerGameboard.isFull() && opponentGameboard.isFull();
+    return playerGameboard.isFull() && opponentGameboard.isFull() && !isStarted();
   }
 
   return {
