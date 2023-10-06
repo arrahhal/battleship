@@ -5,7 +5,7 @@ describe('Player', () => {
   const gameboard = {};
 
   beforeEach(() => {
-    player = Player('foo');
+    player = new Player('foo', gameboard);
     gameboard.receiveAttack = jest.fn()
     gameboard.board = Array(10).fill(Array(10).fill(null))
   })
@@ -13,13 +13,13 @@ describe('Player', () => {
   test('attack a specific position', () => {
     const x = 4;
     const y = 7;
-    player.attack(gameboard, x, y);
+    player.attack(x, y);
     expect(gameboard.receiveAttack).toHaveBeenCalledWith(x, y);
   })
 
   test('attack a random position', () => {
-    for (let i = 0 ; i < 100; i++){
-      player.randomAttack(gameboard);
+    for (let i = 0; i < 100; i++) {
+      player.randomAttack();
     };
     expect(gameboard.receiveAttack).toHaveBeenCalledTimes(100);
   })

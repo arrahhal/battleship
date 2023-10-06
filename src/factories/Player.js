@@ -1,6 +1,7 @@
 class Player {
-  constructor(name) {
+  constructor(name, gameboard) {
     this.name = name;
+    this.gameboard = gameboard;
     this.shooted = new Set();
   }
 
@@ -19,14 +20,14 @@ class Player {
     return target;
   }
 
-  attack(gameboard, x, y) {
-    return gameboard.receiveAttack(x, y);
+  attack(x, y) {
+    return this.gameboard.receiveAttack(x, y);
   }
 
-  randomAttack(gameboard) {
-    if (this.shooted.size === gameboard.board.length * gameboard.board.length) return;
-    const target = this.randomTarget(gameboard.board);
-    gameboard.receiveAttack(...target);
+  randomAttack() {
+    if (this.shooted.size === this.gameboard.board.length * this.gameboard.board.length) return;
+    const target = this.randomTarget(this.gameboard.board);
+    this.gameboard.receiveAttack(...target);
     this.shooted.add(`${target[0]}-${target[1]}`);
   }
 }

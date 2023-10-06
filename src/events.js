@@ -43,7 +43,7 @@ function initListeners() {
     const x = Number(clickedCell.dataset.x);
     const y = Number(clickedCell.dataset.y);
 
-    if (player.attack(opponentGameboard, x, y)) {
+    if (player.attack(x, y)) {
       handlePlayerTurn();
       handleOpponentTurn();
       refreshBoards();
@@ -60,7 +60,7 @@ function initListeners() {
   }
 
   function handleOpponentTurn() {
-    opponent.randomAttack(playerGameboard);
+    opponent.randomAttack();
     if (Game.isOver()) {
       refreshPlayerBoard();
       DOM.logGameOver(Game.winner());

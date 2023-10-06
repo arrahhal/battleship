@@ -9,10 +9,10 @@ export const Game = (() => {
   let opponentGameboard;
 
   const init = () => {
-    player = new Player('you');
-    opponent = new Player('opponent');
     playerGameboard = Gameboard();
     opponentGameboard = Gameboard();
+    player = new Player('you', opponentGameboard);
+    opponent = new Player('opponent', playerGameboard);
     TurnManager.init(player, opponent, playerGameboard, opponentGameboard);
   }
 
