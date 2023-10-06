@@ -9,8 +9,8 @@ export const Game = (() => {
   let opponentGameboard;
 
   const init = () => {
-    player = Player('you');
-    opponent = Player('opponent');
+    player = new Player('you');
+    opponent = new Player('opponent');
     playerGameboard = Gameboard();
     opponentGameboard = Gameboard();
     TurnManager.init(player, opponent, playerGameboard, opponentGameboard);
