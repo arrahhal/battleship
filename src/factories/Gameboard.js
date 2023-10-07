@@ -13,7 +13,7 @@ const Gameboard = () => {
       shipIndex: 0
     })));
 
-  const isReserved = (x, y, length, direction) => {
+  const isReserved = (y, x, length, direction) => {
     for (let i = 0; i < length; i++) {
       if (direction === 'v' && board[y + i][x].occupant
         || direction === 'h' && board[y][x + i].occupant) {
@@ -23,7 +23,7 @@ const Gameboard = () => {
     return false;
   }
 
-  const isValidPlace = (x, y, len, dir) => {
+  const isValidPlace = (y, x, len, dir) => {
     if (dir === 'v') {
       if (
         x < 0 ||
@@ -33,9 +33,9 @@ const Gameboard = () => {
 
       for (let i = -1; i < len + 1; i++) {
         if ((y + i >= 0) && (y + i < boardSize)) {
-          if (isReserved(x, y + i, 1, 'v')) return false;
-          if ((x + 1 < boardSize) && isReserved(x + 1, y + i, 1, 'v')) return false;
-          if ((x - 1 >= 0) && isReserved(x - 1, y + i, 1, 'v')) return false;
+          if (isReserved(y + i, x, 1, 'v')) return false;
+          if ((x + 1 < boardSize) && isReserved(y + i, x + 1, 1, 'v')) return false;
+          if ((x - 1 >= 0) && isReserved(y + i, x - 1, 1, 'v')) return false;
         }
       }
     }
@@ -48,17 +48,17 @@ const Gameboard = () => {
 
       for (let i = -1; i < len + 1; i++) {
         if ((x + i >= 0) && (x + i < boardSize)) {
-          if (isReserved(x + i, y, 1, 'h')) return false;
-          if ((y + 1 < boardSize) && isReserved(x + i, y + 1, 1, 'h')) return false;
-          if ((y - 1 >= 0) && isReserved(x + i, y - 1, 1, 'h')) return false;
+          if (isReserved(y, x + i, 1, 'h')) return false;
+          if ((y + 1 < boardSize) && isReserved(y + 1, x + i, 1, 'h')) return false;
+          if ((y - 1 >= 0) && isReserved(y - 1, x + i, 1, 'h')) return false;
         }
       }
     }
     return true;
   }
 
-  const placeShip = (x, y, length, direction) => {
-    if (!isValidPlace(x, y, length, direction)) return false;
+  const placeShip = (y, x, length, direction) => {
+    if (!isValidPlace(y, x, length, direction)) return false;
     const ship = Ship(length);
     if (direction === 'v') {
       for (let i = 0; i < length; i++) {
@@ -75,7 +75,7 @@ const Gameboard = () => {
     return true;
   }
 
-  const receiveAttack = (x, y) => {
+  const receiveAttack = (y, x) => {
     const target = board[y][x];
     if (target.isHit === true) return false;
     if (target.occupant) {
@@ -99,7 +99,7 @@ const Gameboard = () => {
         const x = Math.floor(Math.random() * 10);
         const y = Math.floor(Math.random() * 10);
 
-        if (placeShip(x, y, size, dirs[i % 2])) break;
+        if (placeShip(y, x, size, dirs[i % 2])) break;
       }
     })
   }
@@ -136,9 +136,9 @@ const Gameboard = () => {
     return false;
   }
 
-  const placeNextShip = (x, y) => {
+  const placeNextShip = (y, x) => {
     if (nextSizeIndex >= maxShipsCount) nextSizeIndex = 0;
-    if (placeShip(x, y, shipSizes[nextSizeIndex], shipDirection)) {
+    if (placeShip(y, x, shipSizes[nextSizeIndex], shipDirection)) {
       nextSizeIndex++;
     }
   }

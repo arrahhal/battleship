@@ -9,8 +9,8 @@ class Player {
     return [Math.floor(Math.random() * len), Math.floor(Math.random() * len)];
   }
 
-  isAlreadyHit([h, v]) {
-    return this.shooted.has(`${h}-${v}`);
+  isAlreadyHit([v, h]) {
+    return this.shooted.has(`${v}-${h}`);
   }
 
   randomTarget(board) {
@@ -20,15 +20,15 @@ class Player {
     return target;
   }
 
-  attack(x, y) {
-    return this.gameboard.receiveAttack(x, y);
+  attack(y, x) {
+    return this.gameboard.receiveAttack(y, x);
   }
 
   randomAttack() {
     if (this.shooted.size === this.gameboard.board.length * this.gameboard.board.length) return;
     const target = this.randomTarget(this.gameboard.board);
     this.gameboard.receiveAttack(...target);
-    this.shooted.add(`${target[0]}-${target[1]}`);
+    this.shooted.add(`${target[1]}-${target[0]}`);
   }
 }
 

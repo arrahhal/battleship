@@ -8,7 +8,7 @@ describe('placeShip', () => {
 
   beforeEach(() => {
     gameboard = Gameboard();
-    gameboard.placeShip(x, y, length, direction);
+    gameboard.placeShip(y, x, length, direction);
   })
 
   test("should have ship's tiles not empty", () => {
@@ -43,7 +43,7 @@ describe('placeShip', () => {
   });
 
   test('should not place on top of another one', () => {
-    gameboard.placeShip(x, y, 3, direction);
+    gameboard.placeShip(y, x, 3, direction);
     Array.from({ length: gameboard.board.length }).forEach((_, i) => {
       Array.from({ length: gameboard.board.length }).forEach((_, j) => {
         if (direction === 'v' && i >= x && i < x + length) return;
@@ -87,7 +87,7 @@ describe('receiveAttack', () => {
       hit: mockHitFunc,
     }
 
-    g.receiveAttack(x, y);
+    g.receiveAttack(y, x);
     expect(mockHitFunc).toHaveBeenCalledTimes(1);
   })
 
@@ -100,7 +100,7 @@ describe('receiveAttack', () => {
       hit: mockHitFunc,
     }
 
-    g.receiveAttack(x, y);
+    g.receiveAttack(y, x);
     expect(mockHitFunc).toHaveBeenCalledWith(1);
   })
 })

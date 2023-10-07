@@ -13,8 +13,8 @@ describe('Player', () => {
   test('attack a specific position', () => {
     const x = 4;
     const y = 7;
-    player.attack(x, y);
-    expect(gameboard.receiveAttack).toHaveBeenCalledWith(x, y);
+    player.attack(y, x);
+    expect(gameboard.receiveAttack).toHaveBeenCalledWith(y, x);
   })
 
   test('attack a random position', () => {
