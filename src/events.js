@@ -43,7 +43,7 @@ function initListeners() {
     const x = Number(clickedCell.dataset.x);
     const y = Number(clickedCell.dataset.y);
 
-    if (player.attack(x, y)) {
+    if (player.attack(y, x)) {
       handlePlayerTurn();
       handleOpponentTurn();
       refreshBoards();
@@ -87,7 +87,7 @@ function initListeners() {
     const hoveredCell = e.target;
     const x = Number(hoveredCell.dataset.x);
     const y = Number(hoveredCell.dataset.y);
-    DOM.highlightPlaces(x, y, playerGameboard.nextShipLength(), playerGameboard.nextShipDirection());
+    DOM.highlightPlaces(y, x, playerGameboard.nextShipLength(), playerGameboard.nextShipDirection());
   }
 
   function handlePlaceShip(e) {
@@ -95,7 +95,7 @@ function initListeners() {
     const clickedCell = e.target;
     const x = Number(clickedCell.dataset.x);
     const y = Number(clickedCell.dataset.y);
-    playerGameboard.placeNextShip(x, y);
+    playerGameboard.placeNextShip(y, x);
     refreshPlayerBoard();
     handleLog();
   }

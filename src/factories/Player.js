@@ -28,7 +28,7 @@ class Player {
     if (this.shooted.size === this.gameboard.board.length * this.gameboard.board.length) return;
     const target = this.randomTarget(this.gameboard.board);
     this.gameboard.receiveAttack(...target);
-    this.shooted.add(`${target[1]}-${target[0]}`);
+    this.shooted.add(`${target[0]}-${target[1]}`);
   }
 }
 
