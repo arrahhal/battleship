@@ -59,7 +59,7 @@ function initListeners() {
   }
 
   function handleOpponentTurn() {
-    opponent.randomAttack();
+    opponent.attack();
     if (Game.isOver()) {
       refreshPlayerBoard();
       DOM.logGameOver(Game.winner());

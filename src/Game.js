@@ -1,6 +1,7 @@
 import { Gameboard } from './factories/Gameboard';
 import { Player } from './factories/Player';
 import { TurnManager } from './helpers/TurnManager';
+import { BotPlayer } from './helpers/bot';
 
 export const Game = (() => {
   let player;
@@ -12,7 +13,7 @@ export const Game = (() => {
     playerGameboard = Gameboard();
     opponentGameboard = Gameboard();
     player = new Player('you', opponentGameboard);
-    opponent = new Player('opponent', playerGameboard);
+    opponent = new BotPlayer('opponent', playerGameboard);
     TurnManager.init(player, opponent, playerGameboard, opponentGameboard);
   };
 
