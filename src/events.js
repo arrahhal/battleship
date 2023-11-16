@@ -3,7 +3,6 @@ import { Game } from './Game';
 import { selectors } from './helpers/selectors';
 
 function initListeners() {
-
   let opponentGameboard;
   let playerGameboard;
   let playerBoard;
@@ -43,7 +42,7 @@ function initListeners() {
     const x = Number(clickedCell.dataset.x);
     const y = Number(clickedCell.dataset.y);
 
-    if (player.attack(opponentGameboard, x, y)) {
+    if (player.attack(y, x)) {
       handlePlayerTurn();
       handleOpponentTurn();
       refreshBoards();
@@ -60,7 +59,7 @@ function initListeners() {
   }
 
   function handleOpponentTurn() {
-    opponent.randomAttack(playerGameboard);
+    opponent.attack();
     if (Game.isOver()) {
       refreshPlayerBoard();
       DOM.logGameOver(Game.winner());
@@ -80,6 +79,7 @@ function initListeners() {
     playerGameboard.resetBoard();
     playerGameboard.placeShipsRandomly();
     refreshPlayerBoard();
+    handleLog();
   }
 
   function handleHighlightShip(e) {
@@ -87,7 +87,12 @@ function initListeners() {
     const hoveredCell = e.target;
     const x = Number(hoveredCell.dataset.x);
     const y = Number(hoveredCell.dataset.y);
-    DOM.highlightPlaces(x, y, playerGameboard.nextShipLength(), playerGameboard.nextShipDirection());
+    DOM.highlightPlaces(
+      y,
+      x,
+      playerGameboard.nextShipLength(),
+      playerGameboard.nextShipDirection()
+    );
   }
 
   function handlePlaceShip(e) {
@@ -95,7 +100,7 @@ function initListeners() {
     const clickedCell = e.target;
     const x = Number(clickedCell.dataset.x);
     const y = Number(clickedCell.dataset.y);
-    playerGameboard.placeNextShip(x, y);
+    playerGameboard.placeNextShip(y, x);
     refreshPlayerBoard();
     handleLog();
   }
@@ -124,17 +129,26 @@ function initListeners() {
 
   document.addEventListener('DOMContentLoaded', intilizeGame);
 
-  selectors.tableOpponentPlaceholder.addEventListener('click', handleOpponentBoardClick)
+  selectors.tableOpponentPlaceholder.addEventListener(
+    'click',
+    handleOpponentBoardClick
+  );
 
   selectors.btnReset.addEventListener('click', intilizeGame);
 
   selectors.btnRandomize.addEventListener('click', handleRandomizeClick);
 
-  selectors.tablePlayerPlaceholder.addEventListener('mouseover', handleHighlightShip);
+  selectors.tablePlayerPlaceholder.addEventListener(
+    'mouseover',
+    handleHighlightShip
+  );
 
-  selectors.tablePlayerPlaceholder.addEventListener('mouseleave', DOM.removeHighlights);
+  selectors.tablePlayerPlaceholder.addEventListener(
+    'mouseleave',
+    DOM.removeHighlights
+  );
 
-  selectors.tablePlayerPlaceholder.addEventListener('click', handlePlaceShip)
+  selectors.tablePlayerPlaceholder.addEventListener('click', handlePlaceShip);
 
   selectors.btnRotate.addEventListener('click', handleRotateClick);
 }

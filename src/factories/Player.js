@@ -1,37 +1,34 @@
-const Player = (name) => {
+class Player {
+  constructor(name, gameboard) {
+    this.name = name;
+    this.gameboard = gameboard;
+    this.shooted = new Set();
+  }
 
-  const shooted = new Set();
-
-  function randomPosition(len = 10) {
+  randomPosition(len = 10) {
     return [Math.floor(Math.random() * len), Math.floor(Math.random() * len)];
-  };
+  }
 
-  function isAlreadyHit ([h, v]) {
-    return shooted.has(`${h}-${v}`)
-  };
+  isAlreadyHit([v, h]) {
+    return this.shooted.has(`${v}-${h}`);
+  }
 
-  function randomTarget(board) {
-    let target = randomPosition(board.length);
-    while (isAlreadyHit(target)) target = randomPosition(board.lengt);
+  randomTarget(board) {
+    let target = this.randomPosition(board.length);
+    while (this.isAlreadyHit(target)) target = this.randomPosition(board.length);
 
     return target;
   }
 
-  function attack(gameboard, x, y) {
-    return gameboard.receiveAttack(x, y);
+  attack(y, x) {
+    return this.gameboard.receiveAttack(y, x);
   }
 
-  function randomAttack(gameboard) {
-    if (shooted.size === gameboard.board.length * gameboard.board.length) return;
-    const target = randomTarget(gameboard.board);
-    gameboard.receiveAttack(...target);
-    shooted.add(`${target[0]}-${target[1]}`);
-  }
-
-  return {
-    name,
-    attack,
-    randomAttack,
+  randomAttack() {
+    if (this.shooted.size === this.gameboard.board.length * this.gameboard.board.length) return;
+    const target = this.randomTarget(this.gameboard.board);
+    this.gameboard.receiveAttack(...target);
+    this.shooted.add(`${target[0]}-${target[1]}`);
   }
 }
 

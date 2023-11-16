@@ -67,10 +67,10 @@ const DOM = (() => {
     document.querySelector(':root').style.removeProperty('--clr-highlight');
   }
 
-  const highlightShip = (x, y, len, dir) => {
+  const highlightShip = (y, x, len, dir) => {
     removeShipHighlights();
 
-    const highlightCell = (x, y) => {
+    const highlightCell = (y, x) => {
       const target = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
       if (target) {
         target.classList.add('highlight');
@@ -82,18 +82,18 @@ const DOM = (() => {
     }
     if (dir === 'h') {
       for (let i = 0; i < len; i++) {
-        highlightCell(x + i, y);
+        highlightCell(y, x + i);
       }
     }
     if (dir === 'v') {
       for (let i = 0; i < len; i++) {
-        highlightCell(x, y + i);
+        highlightCell(y + i, x);
       }
     }
   }
 
-  const highlightPlaces = (x, y, len, dir) => {
-    highlightShip(x, y, len, dir);
+  const highlightPlaces = (y, x, len, dir) => {
+    highlightShip(y, x, len, dir);
     highlightReserved();
   }
 
