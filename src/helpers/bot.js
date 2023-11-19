@@ -129,9 +129,8 @@ class BotPlayer extends Player {
   }
 
   smartRandomAttack() {
-    let x;
-    let y;
-    while (!x || !y || !this.possibleShipPlace(y, x)) {
+    let [y, x] = this.randomPosition();
+    while (!this.possibleShipPlace(y, x)) {
       [y, x] = this.randomPosition();
     }
     return this.shootTarget(y, x);
