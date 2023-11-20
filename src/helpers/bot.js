@@ -31,20 +31,33 @@ class BotPlayer extends Player {
   }
 
   reservedSet() {
-    // const dirs = [
-    //   [1, 0], [1, 1], [1, -1],
-    //   [0, 0], [0, 1], [0, -1],
-    //   [-1, 0], [-1, 1], [-1, -1]
-    // ];
-    // const shipsReserved = new Set();
-    // bug: adding ships cells as reserved, there should be a way to determine ship direction
-    // this.ships.forEach(pos => {
-    //   dirs.forEach(dir => {
-    //     shipsReserved.add(`${pos[0] + dir[0]}-${pos[1] + dir[1]}`);
-    //   });
-    // });
+    const dirs = [
+      [1, 0],
+      [1, 1],
+      [1, -1],
+      [0, 0],
+      [0, 1],
+      [0, -1],
+      [-1, 0],
+      [-1, 1],
+      [-1, -1],
+    ];
+    const shipsReserved = new Set();
+    const len = this.gameboard.board.length;
+    this.ships.forEach((pos) => {
+      dirs.forEach((dir) => {
+        if (
+          pos[0] + dir[0] < len &&
+          pos[0] + dir[0] >= 0 &&
+          pos[1] + dir[1] < len &&
+          pos[1] + dir[1] >= 0
+        ) {
+          shipsReserved.add(`${pos[0] + dir[0]}-${pos[1] + dir[1]}`);
+        }
+      });
+    });
 
-    return this.shooted /*, ...shipsReserved] */;
+    return new Set([...shipsReserved, ...this.shooted]);
   }
 
   attack() {
@@ -76,8 +89,6 @@ class BotPlayer extends Player {
 
   possibleShipPlace(y, x) {
     const has = this.reservedSet().has(`${y}-${x}`);
-    console.log(`y: ${y}, x: ${x}`);
-    console.log(has);
     return this.isValidCoordinates(y, x) && !has;
   }
 
@@ -109,7 +120,10 @@ class BotPlayer extends Player {
     ];
 
     if (target.occupant) {
-      if (target.occupant.isSunk()) this.hitStack = [];
+      if (target.occupant.isSunk()) {
+        this.ships.push(...this.hitStack);
+        this.hitStack = [];
+      }
     }
 
     if (
